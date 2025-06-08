@@ -76,4 +76,20 @@ public class ProductDAOImpl implements IProductDAO {
         }
         return product;
     }
+
+    @Override
+    public void updateStock(int productDetailId, int quantityToDecrease, Connection conn) {
+        String sql = "UPDATE product_details SET stock_quantity = stock_quantity - ? WHERE id = ? AND stock_quantity >= ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantityToDecrease);
+            ps.setInt(2, productDetailId);
+            ps.setInt(3, quantityToDecrease);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Insufficient stock for product detail ID: " + productDetailId);
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error updating stock.", e);
+        }
+    }
 }
