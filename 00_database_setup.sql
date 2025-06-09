@@ -86,19 +86,19 @@ INSERT INTO categories (name) VALUES
 INSERT INTO products (name, description, category_id) VALUES
 ('Áo Thun Cổ Tròn Basic', 'Chất liệu 100% cotton, co giãn 4 chiều, thấm hút mồ hôi tốt. Dễ dàng phối đồ.', 1),
 ('Áo Thun In Hình Graphic', 'Thiết kế độc đáo với hình in nổi bật, thể hiện cá tính riêng.', 1),
-('Áo Sơ Mi Dài Tay Oxford', 'Vải Oxford cao cấp, đứng form, mang lại vẻ ngoài lịch lãm, trưởng thành.', 2),
-('Áo Polo Pique', 'Vải dệt kiểu mắt chim (pique) thoáng khí, cổ áo và tay áo bo viền tinh tế.', 3),
+('Áo Sơ Mi Dài Tay Oxford', 'Vải Oxford cao cấp, đứng form, kiểu dáng trưởng thành.', 2),
+('Áo Polo Pique', 'Vải dệt mát mẻ thoáng khí, kiểu dáng tinh tế.', 3),
 ('Áo Hoodie Nỉ Bông', 'Chất nỉ bông dày dặn, giữ ấm tốt, có mũ và túi kangaroo tiện lợi.', 4);
 
 INSERT INTO product_details (product_id, color, size, price, stock_quantity, image_url) VALUES
-(1, 'Trắng', 'L', 180000.00, 150, 'assets/web/images/product-1.png'),
-(1, 'Đen', 'L', 180000.00, 145, 'assets/web/images/product-2.png'),
-(1, 'Xám', 'L', 180000.00, 110, 'assets/web/images/product-3.png'),
-(1, 'Xanh Navy', 'L', 190000.00, 90, 'assets/web/images/product-4.png'),
-(1, 'Be', 'L', 190000.00, 85, 'assets/web/images/product-5.png'),
-(2, 'Đen', 'L', 250000.00, 80, 'assets/web/images/product-6.png'),
-(2, 'Trắng', 'L', 250000.00, 75, 'assets/web/images/product-7.png'),
-(2, 'Đỏ', 'L', 260000.00, 60, 'assets/web/images/product-8.png'),
+(1, 'Trắng', 'M', 180000.00, 150, 'assets/web/images/product-1.png'),
+(1, 'Đen', 'M', 180000.00, 145, 'assets/web/images/product-2.png'),
+(1, 'Xám', 'M', 180000.00, 110, 'assets/web/images/product-3.png'),
+(1, 'Xanh Navy', 'M', 190000.00, 90, 'assets/web/images/product-4.png'),
+(1, 'Be', 'M', 190000.00, 85, 'assets/web/images/product-5.png'),
+(2, 'Đen', 'M', 250000.00, 80, 'assets/web/images/product-6.png'),
+(2, 'Trắng', 'M', 250000.00, 75, 'assets/web/images/product-7.png'),
+(2, 'Đỏ', 'M', 260000.00, 60, 'assets/web/images/product-8.png'),
 (3, 'Trắng', 'M', 350000.00, 90, 'assets/web/images/product-9.png'),
 (3, 'Xanh da trời', 'M', 350000.00, 85, 'assets/web/images/product-10.png'),
 (3, 'Hồng nhạt', 'M', 360000.00, 70, 'assets/web/images/product-11.png'),
@@ -107,10 +107,11 @@ INSERT INTO product_details (product_id, color, size, price, stock_quantity, ima
 (4, 'Trắng', 'M', 320000.00, 95, 'assets/web/images/product-14.png'),
 (4, 'Đen', 'M', 320000.00, 90, 'assets/web/images/product-15.png'),
 (4, 'Xám', 'M', 320000.00, 80, 'assets/web/images/product-16.png'),
-(5, 'Đen', 'XL', 450000.00, 70, 'assets/web/images/product-17.png'),
-(5, 'Xám', 'XL', 450000.00, 65, 'assets/web/images/product-18.png'),
-(5, 'Be', 'XL', 460000.00, 50, 'assets/web/images/product-19.png'),
-(5, 'Xanh rêu', 'XL', 460000.00, 45, 'assets/web/images/product-20.png');
+(5, 'Đen', 'M', 450000.00, 70, 'assets/web/images/product-17.png'),
+(5, 'Xám', 'M', 450000.00, 65, 'assets/web/images/product-18.png'),
+(5, 'Be', 'M', 460000.00, 50, 'assets/web/images/product-19.png'),
+(5, 'Xanh rêu', 'M', 460000.00, 45, 'assets/web/images/product-20.png');
+
 
 INSERT INTO users (full_name, email, password, phone_number, address, role) VALUES
 ('Nguyễn Văn A', 'a.nguyen@email.com', '123456', '0987654321', '123 Đường ABC, Quận 1, TP. HCM', 'USER'),
