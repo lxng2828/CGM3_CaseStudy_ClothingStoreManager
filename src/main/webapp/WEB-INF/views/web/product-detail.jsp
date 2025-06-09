@@ -237,7 +237,6 @@
             updateQuantity(-1);
         }
 
-        // Validate quantity input
         document.getElementById('quantity').addEventListener('change', function() {
             let value = parseInt(this.value);
             const max = parseInt(this.max);
