@@ -1,155 +1,156 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-            <!DOCTYPE html>
-            <html lang="vi">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - Cửa Hàng Quần Áo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .checkout-form, .order-summary {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="checkout-form p-4 mb-4">
+                    <h2 class="mb-4 pb-2 border-bottom">
+                        <i class="bi bi-truck me-2"></i>Thông Tin Giao Hàng
+                    </h2>
 
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Thanh Toán Đơn Hàng</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        background-color: #f4f4f4;
-                        color: #333;
-                    }
+                    <c:if test="${not empty errorMessage}">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>${errorMessage}
+                        </div>
+                    </c:if>
 
-                    .container {
-                        max-width: 900px;
-                        margin: 40px auto;
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 40px;
-                    }
-
-                    .checkout-form,
-                    .order-summary {
-                        background: #fff;
-                        padding: 30px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                    }
-
-                    h2 {
-                        margin-top: 0;
-                        border-bottom: 1px solid #eee;
-                        padding-bottom: 15px;
-                        margin-bottom: 20px;
-                    }
-
-                    .form-group {
-                        margin-bottom: 20px;
-                    }
-
-                    .form-group label {
-                        display: block;
-                        margin-bottom: 5px;
-                        font-weight: bold;
-                    }
-
-                    .form-group input {
-                        width: 100%;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        border-radius: 4px;
-                        box-sizing: border-box;
-                    }
-
-                    .order-summary ul {
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                    }
-
-                    .order-summary li {
-                        display: flex;
-                        justify-content: space-between;
-                        padding: 10px 0;
-                        border-bottom: 1px solid #eee;
-                    }
-
-                    .order-summary li:last-child {
-                        border: none;
-                    }
-
-                    .order-summary .total {
-                        font-weight: bold;
-                        font-size: 1.2em;
-                        margin-top: 20px;
-                        padding-top: 20px;
-                        border-top: 2px solid #333;
-                    }
-
-                    .submit-btn {
-                        width: 100%;
-                        padding: 15px;
-                        background-color: #28a745;
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        font-size: 1.2em;
-                        cursor: pointer;
-                    }
-
-                    .error-message {
-                        color: red;
-                        background-color: #ffebee;
-                        border: 1px solid red;
-                        padding: 10px;
-                        border-radius: 4px;
-                        margin-bottom: 20px;
-                    }
-                </style>
-            </head>
-
-            <body>
-                <div class="container">
-                    <div class="checkout-form">
-                        <h2>Thông Tin Giao Hàng</h2>
-                        <c:if test="${not empty errorMessage}">
-                            <p class="error-message">${errorMessage}</p>
-                        </c:if>
-                        <form action="${pageContext.request.contextPath}/checkout" method="POST">
-                            <div class="form-group">
-                                <label for="customerName">Họ và Tên</label>
-                                <input type="text" id="customerName" name="customerName" required>
+                    <form action="${pageContext.request.contextPath}/checkout" method="POST" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="customerName" class="form-label fw-bold">Họ và Tên</label>
+                            <input type="text" class="form-control form-control-lg" id="customerName" name="customerName" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập họ và tên
                             </div>
-                            <div class="form-group">
-                                <label for="shippingPhone">Số Điện Thoại</label>
-                                <input type="tel" id="shippingPhone" name="shippingPhone" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="shippingPhone" class="form-label fw-bold">Số Điện Thoại</label>
+                            <input type="tel" class="form-control form-control-lg" id="shippingPhone" name="shippingPhone" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập số điện thoại
                             </div>
-                            <div class="form-group">
-                                <label for="shippingAddress">Địa Chỉ Giao Hàng</label>
-                                <input type="text" id="shippingAddress" name="shippingAddress" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="shippingAddress" class="form-label fw-bold">Địa Chỉ Giao Hàng</label>
+                            <input type="text" class="form-control form-control-lg" id="shippingAddress" name="shippingAddress" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập địa chỉ giao hàng
                             </div>
-                            <button type="submit" class="submit-btn">Hoàn Tất Đơn Hàng</button>
-                        </form>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                            <i class="bi bi-credit-card me-2"></i>Hoàn Tất Đơn Hàng
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="order-summary p-4">
+                    <h2 class="mb-4 pb-2 border-bottom">
+                        <i class="bi bi-receipt me-2"></i>Tóm Tắt Đơn Hàng
+                    </h2>
+
+                    <div class="list-group mb-4">
+                        <c:set var="totalAmount" value="0" />
+                        <c:forEach var="item" items="${sessionScope.cart.values()}">
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${pageContext.request.contextPath}/${item.product.imageUrl}"
+                                             alt="${item.product.name}"
+                                             class="rounded me-3"
+                                             style="width: 60px; height: 60px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-1">${item.product.name}</h6>
+                                            <small class="text-muted">Số lượng: ${item.quantity}</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold">
+                                            <fmt:setLocale value="vi_VN" />
+                                            <fmt:formatNumber value="${item.subtotal}" type="currency" currencySymbol="VNĐ" />
+                                        </div>
+                                        <small class="text-muted">
+                                            <fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="VNĐ" />/cái
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <c:set var="totalAmount" value="${totalAmount + item.subtotal}" />
+                        </c:forEach>
                     </div>
-                    <div class="order-summary">
-                        <h2>Tóm Tắt Đơn Hàng</h2>
-                        <ul>
-                            <c:set var="totalAmount" value="0" />
-                            <c:forEach var="item" items="${sessionScope.cart.values()}">
-                                <li>
-                                    <span>${item.product.name} (x${item.quantity})</span>
-                                    <strong>
-                                        <fmt:setLocale value="vi_VN" />
-                                        <fmt:formatNumber value="${item.subtotal}" type="currency" currencySymbol="đ" />
-                                    </strong>
-                                </li>
-                                <c:set var="totalAmount" value="${totalAmount + item.subtotal}" />
-                            </c:forEach>
-                            <li class="total">
-                                <span>Tổng Cộng</span>
-                                <span>
-                                    <fmt:setLocale value="vi_VN" />
-                                    <fmt:formatNumber value="${totalAmount}" type="currency" currencySymbol="đ" />
-                                </span>
-                            </li>
-                        </ul>
+
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Tạm tính</span>
+                            <span>
+                                <fmt:setLocale value="vi_VN" />
+                                <fmt:formatNumber value="${totalAmount}" type="currency" currencySymbol="VNĐ" />
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Phí vận chuyển</span>
+                            <span>Miễn phí</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold">Tổng cộng</span>
+                            <h4 class="text-primary mb-0">
+                                <fmt:setLocale value="vi_VN" />
+                                <fmt:formatNumber value="${totalAmount}" type="currency" currencySymbol="VNĐ" />
+                            </h4>
+                        </div>
+                        <a href="${pageContext.request.contextPath}/cart" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-left me-2"></i>Quay Lại Giỏ Hàng
+                        </a>
                     </div>
                 </div>
-            </body>
+            </div>
+        </div>
+    </div>
 
-            </html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>

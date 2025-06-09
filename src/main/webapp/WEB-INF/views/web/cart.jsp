@@ -1,198 +1,119 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - Cửa Hàng Quần Áo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .cart-summary {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Giỏ Hàng Của Bạn</h1>
 
-            <!DOCTYPE html>
-            <html lang="vi">
+        <c:choose>
+            <c:when test="${not empty sessionScope.cart and not empty sessionScope.cart.values()}">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th colspan="2" class="py-3">Sản phẩm</th>
+                                                <th class="py-3">Đơn giá</th>
+                                                <th class="py-3">Số lượng</th>
+                                                <th class="py-3 text-end">Tạm tính</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:set var="totalAmount" value="0" />
+                                            <c:forEach var="item" items="${sessionScope.cart.values()}">
+                                                <tr>
+                                                    <td class="align-middle" style="width: 100px;">
+                                                        <img src="${pageContext.request.contextPath}/${item.product.imageUrl}"
+                                                            alt="${item.product.name}" class="img-fluid product-img">
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <h6 class="mb-1">${item.product.name}</h6>
+                                                        <small class="text-muted">Màu: ${item.product.color}, Size: ${item.product.size}</small>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <fmt:setLocale value="vi_VN" />
+                                                        <fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="VNĐ" />
+                                                    </td>
+                                                    <td class="align-middle">${item.quantity}</td>
+                                                    <td class="align-middle text-end">
+                                                        <fmt:formatNumber value="${item.subtotal}" type="currency" currencySymbol="VNĐ" />
+                                                    </td>
+                                                </tr>
+                                                <c:set var="totalAmount" value="${totalAmount + item.subtotal}" />
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Giỏ Hàng Của Bạn</title>
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/web/css/style.css">
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        background-color: #f4f4f4;
-                    }
-
-                    .container {
-                        max-width: 1100px;
-                        margin: 40px auto;
-                        padding: 20px;
-                    }
-
-                    .cart-title {
-                        text-align: center;
-                        margin-bottom: 30px;
-                    }
-
-                    .cart-table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        background: #fff;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        border-radius: 8px;
-                        overflow: hidden;
-                    }
-
-                    .cart-table th,
-                    .cart-table td {
-                        padding: 15px;
-                        text-align: left;
-                    }
-
-                    .cart-table thead {
-                        background-color: #007bff;
-                        color: white;
-                    }
-
-                    .cart-table tbody tr {
-                        border-bottom: 1px solid #ddd;
-                    }
-
-                    .cart-table tbody tr:last-child {
-                        border-bottom: none;
-                    }
-
-                    .product-info {
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    .product-info img {
-                        width: 80px;
-                        height: 80px;
-                        object-fit: cover;
-                        border-radius: 4px;
-                        margin-right: 15px;
-                    }
-
-                    .empty-cart {
-                        text-align: center;
-                        padding: 50px;
-                        background: #fff;
-                        border-radius: 8px;
-                    }
-
-                    .cart-summary {
-                        margin-top: 30px;
-                        float: right;
-                        width: 300px;
-                        background: #fff;
-                        padding: 20px;
-                        border-radius: 8px;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    }
-
-                    .cart-summary h3 {
-                        margin-top: 0;
-                    }
-
-                    .cart-summary .total {
-                        font-size: 1.5em;
-                        font-weight: bold;
-                        color: #e91e63;
-                        display: flex;
-                        justify-content: space-between;
-                        margin-bottom: 20px;
-                    }
-
-                    .checkout-button {
-                        display: block;
-                        width: 100%;
-                        padding: 15px;
-                        background-color: #28a745;
-                        color: white;
-                        text-align: center;
-                        text-decoration: none;
-                        border-radius: 4px;
-                        font-size: 1.2em;
-                    }
-
-                    .action-links a {
-                        color: #dc3545;
-                        text-decoration: none;
-                    }
-                </style>
-            </head>
-
-            <body>
-                <div class="container">
-                    <h1 class="cart-title">Giỏ Hàng Của Bạn</h1>
-
-                    <c:choose>
-                        <c:when test="${not empty sessionScope.cart and not empty sessionScope.cart.values()}">
-                            <table class="cart-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Sản phẩm</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Tạm tính</th>
-                                        <%-- <th>Xóa</th> --%>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:set var="totalAmount" value="0" />
-                                    <c:forEach var="item" items="${sessionScope.cart.values()}">
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="product-info">
-                                                    <img src="${pageContext.request.contextPath}/${item.product.imageUrl}"
-                                                        alt="${item.product.name}">
-                                                    <div>
-                                                        <strong>${item.product.name}</strong>
-                                                        <br>
-                                                        <small>Màu: ${item.product.color}, Size:
-                                                            ${item.product.size}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <fmt:setLocale value="vi_VN" />
-                                                <fmt:formatNumber value="${item.product.price}" type="currency"
-                                                    currencySymbol="VNĐ" />
-                                            </td>
-                                            <td>${item.quantity}</td>
-                                            <td>
-                                                <fmt:formatNumber value="${item.subtotal}" type="currency"
-                                                    currencySymbol="VNĐ" />
-                                            </td>
-                                            <%-- <td class="action-links">
-                                                <a href="#">Xóa</a>
-                                                </td>
-                                                --%>
-                                        </tr>
-                                        <c:set var="totalAmount" value="${totalAmount + item.subtotal}" />
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-
-                            <div class="cart-summary">
-                                <h3>Tổng Cộng</h3>
-                                <div class="total">
-                                    <span>Tổng tiền</span>
-                                    <span>
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Tổng Cộng</h5>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="mb-0">Tổng tiền</h4>
+                                    <h4 class="mb-0 text-primary">
                                         <fmt:setLocale value="vi_VN" />
                                         <fmt:formatNumber value="${totalAmount}" type="currency" currencySymbol="VNĐ" />
-                                    </span>
+                                    </h4>
                                 </div>
-                                <a href="${pageContext.request.contextPath}/checkout" class="checkout-button">Tiến hành
-                                    Thanh toán</a>
+                                <a href="${pageContext.request.contextPath}/checkout" class="btn btn-primary btn-lg w-100 py-2">
+                                    Tiến Hành Thanh Toán
+                                </a>
+                                <a href="${pageContext.request.contextPath}/home" class="btn btn-outline-secondary w-100 mt-2 py-2">
+                                    Tiếp Tục Mua Sắm
+                                </a>
                             </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="empty-cart">
-                                <h2>Giỏ hàng của bạn đang trống</h2>
-                                <p>Hãy tiếp tục mua sắm để thêm sản phẩm vào giỏ nhé!</p>
-                                <a href="${pageContext.request.contextPath}/home"
-                                    style="text-decoration: none; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 4px;">Quay
-                                    lại trang chủ</a>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                        </div>
+                    </div>
                 </div>
-            </body>
+            </c:when>
+            <c:otherwise>
+                <div class="text-center py-5">
+                    <div class="card shadow-sm border-0 py-5">
+                        <div class="card-body">
+                            <i class="bi bi-cart-x" style="font-size: 4rem; color: #6c757d;"></i>
+                            <h2 class="mt-3">Giỏ hàng của bạn đang trống</h2>
+                            <p class="text-muted mb-4">Hãy tiếp tục mua sắm để thêm sản phẩm vào giỏ nhé!</p>
+                            <a href="${pageContext.request.contextPath}/home" class="btn btn-primary px-4 py-2">
+                                Quay Lại Trang Chủ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
-            </html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
