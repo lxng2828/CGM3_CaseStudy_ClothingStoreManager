@@ -17,7 +17,6 @@ public class OrderDAOImpl implements IOrderDAO {
     public int saveOrder(Order order, Connection conn) {
         String sql = "INSERT INTO orders (user_id, total_amount, status, shipping_address, shipping_phone, customer_name) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // userId có thể null
             if (order.getUserId() != null) {
                 ps.setInt(1, order.getUserId());
             } else {
